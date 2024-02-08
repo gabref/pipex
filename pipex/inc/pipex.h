@@ -6,7 +6,7 @@
 /*   By: galves-f <galves-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:55:45 by galves-f          #+#    #+#             */
-/*   Updated: 2024/02/08 00:39:19 by galves-f         ###   ########.fr       */
+/*   Updated: 2024/02/08 14:03:51 by galves-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# define PATH "PATH"
+
 typedef enum e_bool
 {
 	FALSE = 0,
@@ -30,14 +32,14 @@ typedef enum e_bool
 typedef struct s_pipex
 {
 	int		in_fd;
-	int 	pfd[2];
+	int		pfd[2];
 	int		out_fd;
 	t_bool	here_doc;
 	int		cmd_count;
+	int		cur_cmd_idx;
 	char	*in_str;
 	char	*out_str;
-	char	**cmd_paths;
-	char	***cmd_args;
+	char	**cmds;
 	t_bool	is_invalid_infile;
 }			t_pipex;
 
