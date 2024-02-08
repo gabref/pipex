@@ -1,46 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galves-f <galves-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 14:55:45 by galves-f          #+#    #+#             */
-/*   Updated: 2024/02/08 00:39:19 by galves-f         ###   ########.fr       */
+/*   Created: 2023/11/15 18:18:18 by galves-f          #+#    #+#             */
+/*   Updated: 2024/02/07 17:27:05 by galves-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
-# include "../libs/gnl/get_next_line_bonus.h"
-# include "../libs/libft/libft.h"
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
 # include <fcntl.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
 # include <unistd.h>
 
-typedef enum e_bool
-{
-	FALSE = 0,
-	TRUE = 1
-}			t_bool;
-
-typedef struct s_pipex
-{
-	int		in_fd;
-	int 	pfd[2];
-	int		out_fd;
-	t_bool	here_doc;
-	int		cmd_count;
-	char	*in_str;
-	char	*out_str;
-	char	**cmd_paths;
-	char	***cmd_args;
-	t_bool	is_invalid_infile;
-}			t_pipex;
-
-char		*read_file_to_string(int fd);
+char	*get_next_line(int fd);
+int		has_newline(int start, char *str);
+int		find_newline(char *str);
+int		ft_strlen_g(char *str);
+char	*strjoin_g(char *s1, char *s2, int s1_len, int s2_len);
 
 #endif

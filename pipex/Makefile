@@ -6,7 +6,7 @@
 #    By: galves-f <galves-f@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2024/02/06 15:54:33 by galves-f         ###   ########.fr        #
+#    Updated: 2024/02/07 18:34:38 by galves-f         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@
 NAME	= pipex
 NAME_B	= pipex
 CC 		= cc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -ggdb
 AUTHOR	= galves-f
 DATE	= 2024/01/24
 
@@ -34,8 +34,11 @@ SRCS_PATH		= src
 
 INCLUDE_PATH	= inc
 
-SRCS			= split.c
+SRCS			= fs.c
 MAIN			= main.c
+
+LIBFT_DIR 		= libs/libft
+GNL_DIR 		= libs/gnl
 
 SRCS_B			= 
 MAIN_B			= checker.c
@@ -211,7 +214,10 @@ endif
 
 
 $(NAME):	${OBJS} ${OBJ_MAIN}
-			$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -o $@ ${OBJS} ${OBJ_MAIN}
+			make all -C $(LIBFT_DIR)
+			make all -C $(GNL_DIR)
+			$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -o $@ ${OBJS} ${OBJ_MAIN} \
+			-L$(LIBFT_DIR) -lft -L$(GNL_DIR) -lgnl
 
 bonus:	${OBJS_B} ${OBJ_MAIN_B}
 		$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -o $(NAME_B) ${OBJS_B} ${OBJ_MAIN_B}
@@ -225,21 +231,25 @@ objs/%.o: 	$(SRCS_PATH)/%$(FILE_EXTENSION)
 
 clean:		header
 			@rm -rf objs objs_tests
+			@make clean -C $(LIBFT_DIR)
+			@make clean -C $(GNL_DIR)
 			@printf "%-53b%b" "$(COM_COLOR)clean:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
 fclean:		header clean
 			@rm -rf $(NAME)
+			@make fclean -C $(LIBFT_DIR)
+			@make fclean -C $(GNL_DIR)
 			@printf "%-53b%b" "$(COM_COLOR)fclean:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
 re:			fclean all
 
 run1:$(NAME)
-	@printf "%b" "$(WARN_COLOR)./pipex Makefile cat \"head -n 5\" \"wc -l\" out\n\033[m"
-	@./pipex Makefile cat "head -n 5" "wc -l" out
+	@printf "%b" "$(WARN_COLOR)./pipex infile cat \"head -n 5\" \"wc -l\" out\n\033[m"
+	@./pipex infile cat "head -n 5" "wc -l" out
 	@- cat out && rm out
 	@printf "\n"
-	@printf "%b" "$(WARN_COLOR)< Makefile cat | head -n 5 | wc -l > out \n\033[m"
-	@< Makefile cat | head -n 5 | wc -l > out
+	@printf "%b" "$(WARN_COLOR)< infile cat | head -n 5 | wc -l > out \n\033[m"
+	@< infile cat | head -n 5 | wc -l > out
 	@cat out && rm out
 	@printf "\n"
 
