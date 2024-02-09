@@ -6,7 +6,7 @@
 /*   By: galves-f <galves-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:55:45 by galves-f          #+#    #+#             */
-/*   Updated: 2024/02/08 14:03:51 by galves-f         ###   ########.fr       */
+/*   Updated: 2024/02/08 19:44:59 by galves-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libs/gnl/get_next_line_bonus.h"
 # include "../libs/libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
