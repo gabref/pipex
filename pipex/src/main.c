@@ -124,15 +124,6 @@ void	exec_comand(char *cmd, char **env, t_pipex *p)
 		exit(127);
 	}
 	execve(cmd_path, args, env);
-	exit(127);
-	// if (execve(cmd_path, args, NULL) == -1)
-	// {
-	// 	free(args);
-	// 	free(cmd_path);
-	// 	exit(127);
-	// 	return (127);
-	// }
-	// return (0);
 }
 
 void	exec(t_pipex *p, char **env)
@@ -152,23 +143,31 @@ void	exec(t_pipex *p, char **env)
 			exit(1);
 		}
 		else if (child_pid == 0)
+		{
 			exec_comand(p->cmds[p->cur_cmd_idx], env, p);
+		}
 		else
 		{
 			close(p->pfd[1]);
 			dup2(p->pfd[0], STDIN_FILENO);
-			if (waitpid(child_pid, &status, 0) == -1)
+			if (waitpid(child_pid, &status, 0) < 0)
 			{
 				free_pipex(p);
 				perror("waitpid() failed");
 				exit(EXIT_FAILURE);
 			}
-			// if (WIFEXITED(status))
-			// {
-			// 	free_pipex(p);
-			// 	printf("command not found %d %d\n", WIFEXITED(status), status);
-			// 	exit(127);
-			// }
+			if (WIFEXITED(status))
+			{
+				if (WEXITSTATUS(status) != 0)
+				{
+					if (WEXITSTATUS(status) == 127)
+						printf("command not found: %s\n", p->cmds[p->cur_cmd_idx]);
+					else
+						printf("%s\n", strerror(WEXITSTATUS(status)));
+					free_pipex(p);
+					exit(WEXITSTATUS(status));
+				}
+			}
 		}
 	}
 	p->out_str = read_file_to_string(p->pfd[0]);
@@ -214,7 +213,6 @@ t_pipex	*init_pipex(int ac, char **av)
 	p = malloc(sizeof(t_pipex));
 	if (!p)
 		exit(1);
-	p->in_str = NULL;
 	p->out_str = NULL;
 	p->here_doc = FALSE;
 	p->cmd_count = 0;
@@ -237,7 +235,6 @@ void	free_pipex(t_pipex *p)
 {
 	close(p->in_fd);
 	close(p->out_fd);
-	free(p->in_str);
 	if (p->out_str)
 		free(p->out_str);
 	if (p->here_doc)

@@ -6,7 +6,7 @@
 /*   By: galves-f <galves-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:55:45 by galves-f          #+#    #+#             */
-/*   Updated: 2024/02/08 19:44:59 by galves-f         ###   ########.fr       */
+/*   Updated: 2024/02/09 05:17:44 by galves-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <string.h>
 
 # define PATH "PATH"
 
