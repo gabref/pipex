@@ -6,7 +6,7 @@
 #    By: galves-f <galves-f@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 10:00:31 by tmatis            #+#    #+#              #
-#    Updated: 2024/02/07 18:34:38 by galves-f         ###   ########.fr        #
+#    Updated: 2024/02/09 10:13:44 by galves-f         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS_PATH		= src
 
 INCLUDE_PATH	= inc
 
-SRCS			= fs.c
+SRCS			= fs.c exec.c free.c parsing.c utils_env.c
 MAIN			= main.c
 
 LIBFT_DIR 		= libs/libft
@@ -244,13 +244,12 @@ fclean:		header clean
 re:			fclean all
 
 run1:$(NAME)
+	@printf "\n$(OK_COLOR)Test wrong permissions in in$(NO_COLOR)\n"
 	@printf "%b" "$(WARN_COLOR)./pipex infile cat \"head -n 5\" \"wc -l\" out\n\033[m"
 	@./pipex infile cat "head -n 5" "wc -l" out
 	@- cat out && rm out
-	@printf "\n"
 	@printf "%b" "$(WARN_COLOR)< infile cat | head -n 5 | wc -l > out \n\033[m"
 	@< infile cat | head -n 5 | wc -l > out
-	@cat out && rm out
-	@printf "\n"
+	@-cat out && rm out
 
-.PHONY:		all clean fclean re header test2 
+.PHONY:		all clean fclean re header run1

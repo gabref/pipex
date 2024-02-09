@@ -72,6 +72,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 char *cmd1[] = { "/bin/ls", "-al", "/", 0 };
 char *cmd2[] = { "/usr/bin/tr", "a-z", "A-Z", 0 };

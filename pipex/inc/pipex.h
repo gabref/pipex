@@ -6,7 +6,7 @@
 /*   By: galves-f <galves-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:55:45 by galves-f          #+#    #+#             */
-/*   Updated: 2024/02/09 05:17:44 by galves-f         ###   ########.fr       */
+/*   Updated: 2024/02/09 06:31:11 by galves-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <string.h>
 
 # define PATH "PATH"
+# define HERE_DOC_FILE "here_doc"
 
 typedef enum e_bool
 {
@@ -45,6 +46,16 @@ typedef struct s_pipex
 	t_bool	is_invalid_infile;
 }			t_pipex;
 
+void		free_2d_array(void **arr_arr);
+void		free_pipex(t_pipex *p);
+void		exit_pmessage(int exit_code, char *msg);
+void		exit_message(int exit_code, char *msg);
 char		*read_file_to_string(int fd);
+void		parse_here_doc(t_pipex *p, int ac, char **av);
+void		parse_cmds(t_pipex *p, int ac, char **av);
+char		*get_path_for_executable(char *cmd, char **env);
+char		*get_env(char *var, char **env);
+void		exec(t_pipex *p, char **env);
+t_pipex		*init_pipex(int ac, char **av);
 
 #endif
